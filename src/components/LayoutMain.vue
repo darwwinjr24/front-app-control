@@ -23,6 +23,7 @@ import SideBarMenu from './SideBarMenu.vue'
     </el-container>
 </template>
 
+
 <style lang="css">
 .el-container {
     flex: 1

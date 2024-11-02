@@ -3,7 +3,7 @@
     <div class="container_header">
         <h4 class="titulo">MODULO {{ titulo }}</h4>
     <el-row justify="center" ali-gn="middle">
-        <el-button type="danger">{{ tituloBoton }}</el-button>
+        <el-button type="danger" @click="abrir">{{ tituloBoton }}</el-button>
      </el-row>
     </div>
    
@@ -17,6 +17,9 @@
 defineProps({
   titulo: String,
   tituloBoton: String,
+  abrir:{
+    type:Function
+  }
 })
 </script>
 
