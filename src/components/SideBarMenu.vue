@@ -2,7 +2,8 @@
   <el-row class="tac">
     <el-col :span="12">
       <el-menu
-        default-active="2"
+        :default-active="$route.path"
+        router
         background-color="#e8e0df"
       text-color="#050505"
         class="el-menu-vertical-demo"
@@ -15,7 +16,7 @@
             <span>Administrador</span>
           </template>
             <el-menu-item index="1-1">Colaboradores</el-menu-item>
-            <el-menu-item index="1-2">Usuarios</el-menu-item>
+            <el-menu-item index="principal">Usuarios</el-menu-item>
             </el-sub-menu>
 
             <el-sub-menu index="1">
@@ -23,7 +24,7 @@
             <el-icon><location /></el-icon>
             <span>Recepción</span>
           </template>
-            <el-menu-item index="1-1">Control de visitantes</el-menu-item>
+            <el-menu-item index="visitantes">Control de visitantes</el-menu-item>
             </el-sub-menu>
 
             <el-sub-menu index="1">
@@ -41,7 +42,6 @@
           </template>
             <el-menu-item index="1-1">Cambio de Clave</el-menu-item>
             <el-menu-item index="1-2">Actualizar Datos</el-menu-item>
-            <el-menu-item index="1-2">Cambiar rol</el-menu-item>
             </el-sub-menu>
       
       </el-menu>

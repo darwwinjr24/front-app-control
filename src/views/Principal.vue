@@ -1,43 +1,13 @@
-<script lang="ts" setup>
-import LayoutMain from '../components/LayoutMain.vue';
-import FormVisitantes from './Visitantes/FormVisitantes.vue';
-import Header from '../components/Header.vue';
-import {Delete,Edit} from "@element-plus/icons-vue"
-import Formulario from '../components/Formulario.vue';
-
-const tableData = [
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-]
-</script>
-
 <template>
       <LayoutMain>
         <template #slot1>
             <Header
             :titulo="'PRINCIPAL'"
-            :tituloBoton="'Nuevo registro'">
+            :tituloBoton="'Nuevo registro'"
+            :abrir="abrirFormulario">
             </Header>
 
-            <Formulario :titulo="'NUMERO 2'">
+            <Formulario :titulo="'NUMERO 2'" v-model:is-open="mostrarFormulario">
               <template #slotform>
             <FormVisitantes/>
               </template>
@@ -55,9 +25,45 @@ const tableData = [
   </el-table>          
         </template>
 
-
     </LayoutMain>
 </template>
+
+<script lang="ts" setup>
+import LayoutMain from '../components/layoutMain.vue';
+import FormVisitantes from './Visitantes/FormVisitantes.vue';
+import Header from '../components/Header.vue';
+import {Delete,Edit} from "@element-plus/icons-vue"
+import Formulario from '../components/Formulario.vue';
+import { ref } from 'vue';
+
+const mostrarFormulario=ref(false)
+
+const abrirFormulario =()=>{
+  mostrarFormulario.value=true
+}
+const tableData = [
+  {
+    date: '1991-03-10',
+    name: 'Darwin Jhoan',
+    address: 'Cll 9 # 0-07',
+  },
+  {
+    date: '2016-05-02',
+    name: 'Marcos',
+    address: 'Diagonal 13E # 15N-95',
+  },
+  {
+    date: '1988-01-23',
+    name: 'Milena',
+    address: 'Av. 45 # 7-67',
+  },
+  {
+    date: '2018-03-20',
+    name: 'Gael',
+    address: 'calle 65 #0-89',
+  },
+]
+</script>
 
 <style>
 
