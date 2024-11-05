@@ -7,18 +7,25 @@
             :abrir="abrirFormulario">
             </Header>
 
-            <Formulario :titulo="'NUMERO 2'" v-model:is-open="mostrarFormulario">
+            <Formulario :titulo="'MOSTRAR FORMULARIO NUMERO 2'" v-model:is-open="mostrarFormulario" :is-edit="editandoFormulario">
               <template #slotform>
-            <FormVisitantes/>
+                <el-row :gutter="20">
+                  <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
+                    <FormVisitantes 
+                    v-model:is-open="mostrarFormulario" 
+                    />
+                  </el-col>
+                  </el-row>
               </template>
             </Formulario>
+
   <el-table :data="tableData" stripe style="width: 100%">
     <el-table-column prop="date" label="Fecha" width="180" />
     <el-table-column prop="name" label="Nombre" width="180" />
     <el-table-column prop="address" label="Dirección" />
     <el-table-column fixed="right" label="Acciones" min-width="120">
       <template #default>
-        <el-button link type="primary" size="small" :icon="Edit"></el-button>
+        <el-button link type="primary" size="small" :icon="Edit" @click="editarFormulario"></el-button>
         <el-button link type="danger" size="small" :icon="Delete"></el-button>
       </template>
     </el-table-column>
@@ -37,10 +44,18 @@ import Formulario from '../components/Formulario.vue';
 import { ref } from 'vue';
 
 const mostrarFormulario=ref(false)
+const editandoFormulario = ref(false)
 
 const abrirFormulario =()=>{
   mostrarFormulario.value=true
+  editandoFormulario.value=false
 }
+
+const editarFormulario= async()=>{
+    mostrarFormulario.value=true
+    editandoFormulario.value=true
+  }
+
 const tableData = [
   {
     date: '1991-03-10',

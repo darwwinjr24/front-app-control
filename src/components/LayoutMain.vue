@@ -13,7 +13,7 @@ import SideBarMenu from './SideBarMenu.vue'
             <NavBar/>
         </el-header>
         <el-container>
-            <el-aside width="400px">
+            <el-aside width="250px">
                 <SideBarMenu/>
             </el-aside>
             <el-main>
@@ -24,8 +24,16 @@ import SideBarMenu from './SideBarMenu.vue'
 </template>
 
 
-<style lang="css">
-.el-container {
-    flex: 1
+<style scoped>
+.el-header {
+  padding: 0;
+}
+
+.el-aside {
+  background-color: #f4f4f4;
+}
+
+.main-content {
+  position: relative;
 }
 </style>

@@ -63,3 +63,18 @@ const handleClose = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }
 </script>
+
+<style scoped>
+  html, body {
+    margin: 0;
+    padding: 0;
+    /* height: 100%; */
+  }
+  
+
+  
+  .el-menu-vertical-demo {
+    width: 250px;
+    min-height: 100%;
+  }
+</style>
