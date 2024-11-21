@@ -20,8 +20,8 @@
             </el-button>
         </el-col>
         <el-col :xs="6" :sm="6" :md="6" :lg="2" :xl="2" class="form-container__button-group">
-            <el-button size="large" type="danger" class="form-container_buttton-cancel" @click="irAtras">Cancelar</el-button>
-            <el-button type="primary" size="large" class="form-container_button-submit" @click="submit">{{tituloBoton}}</el-button>
+            <el-button size="" type="danger" class="form-container_buttton-cancel" @click="irAtras">Cancelar</el-button>
+            <el-button type="primary" size="" class="form-container_button-submit" @click="submit">{{tituloBoton}}</el-button>
         </el-col>
         </el-row>
         <el-main class="form-container_main">
@@ -40,7 +40,6 @@ const propiedad= defineProps({
   isEdit: Boolean,
   isOpen: Boolean,
 })
-console.log(propiedad.isEdit)
 const tituloBoton = computed(()=>(propiedad.isEdit ? 'Actualizar': 'Guardar'))
 
 const mostrar = computed(() => propiedad.isOpen);
@@ -63,14 +62,15 @@ const submit=()=>{
 
 <style scoped>
 .form-container {
+  margin-top: 20px;
   height: 100vh;
-  position: relative;
+  position: absolute;
   top: 0;
   left: 0;
   right: 5px;
   width: 100%;
   z-index: 90;
-  background-color: white;
+  background-color: rgb(255, 253, 253);
   display: flex;
   flex-direction: column;
   height: calc(100vh + 42%);
@@ -87,7 +87,7 @@ const submit=()=>{
 /* estilos del titulo delformulario  */
 .form-container__title-button {
   font-size: 1.5rem;
-  font-weight: bold;
+  /* font-weight: bold; */
 }
 
 
@@ -101,6 +101,6 @@ const submit=()=>{
 .form-container__button-submit {
   background-color: #2fbe98;
   border: none;
-  color: white;
+  color: rgb(252, 251, 251);
 }
 </style>

@@ -11,7 +11,7 @@ import { Histogram, UserFilled } from '@element-plus/icons-vue'
       <el-avatar
       src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
       />        <div>
-        <el-button type="primary">Registrar visitante</el-button>
+        <el-button type="primary">Registrar visitantes</el-button>
       </div>
     </div>
     <div>
@@ -19,7 +19,7 @@ import { Histogram, UserFilled } from '@element-plus/icons-vue'
       src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
       />
       <div>
-        <el-button type="danger">Salida visitante</el-button>
+        <el-button type="danger">Salida visitantes</el-button>
       </div>
     </div>
     <div>
@@ -27,7 +27,7 @@ import { Histogram, UserFilled } from '@element-plus/icons-vue'
       src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
       />
       <div>
-        <el-button type="success">Consultar visitante</el-button>
+        <el-button type="success">Consultar visitantes</el-button>
       </div>
     </div>
     <div>
@@ -43,6 +43,7 @@ import { Histogram, UserFilled } from '@element-plus/icons-vue'
   
   
   <style scoped>
+ 
   .demo-type {
     display: flex;
   }
