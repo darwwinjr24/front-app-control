@@ -10,7 +10,7 @@
     >
       <el-menu-item index="0">
         <img
-        src="../image/img1.PNG" class="img-thumbnail border-3" alt="..." width="65px"/>
+        src="../image/img1.jpg" class="img-thumbnail border-3" alt="..." width="65px"/>
           <!-- style="width: 100px"
           alt="Element logo" -->
         <!-- /> -->
