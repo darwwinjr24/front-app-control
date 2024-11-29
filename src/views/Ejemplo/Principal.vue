@@ -7,13 +7,13 @@
             :abrir="abrirFormulario">
             </Header>
 
-            <Formulario :titulo="'MOSTRAR FORMULARIO NUMERO 2'" v-model:is-open="mostrarFormulario" :is-edit="editandoFormulario" @save="guardarDatos">
+            <Formulario :titulo="'MOSTRAR FORMULARIO NUMERO 2'" v-model:is-open="mostrarFormulario" :is-edit="editandoFormulario" @save="guardarDatos" @update="actualizarDatos">
               <template #slotform>
                 <el-row :gutter="20">
                   <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
                     <FormVisitantes 
                     v-model:is-open="mostrarFormulario" :is-edit="editandoFormulario" 
-                    ref="formRef" :areas="areas" :autorizados="autorizados" :datos="datos"
+                    ref="formRef" :areas="areas" :autorizados="autorizados" :datos="datos" :dataValue="dataCargosById"
                     />
                   </el-col>
                   </el-row>
@@ -27,16 +27,16 @@
     <el-table-column prop="autorizado_id" label="Autorizado" />
     <el-table-column prop="datos_personales_id" label="Nombre quien autoriza" />
     <el-table-column fixed="right" label="Acciones" min-width="120">
-      <template #default>
-        <el-button link type="primary" size="small" :icon="Edit" @click="editarFormulario"></el-button>
-        <el-button link type="danger" size="small" :icon="Delete"></el-button>
+      <template #default="registro">
+        <el-button link type="primary" size="small" :icon="Edit" @click="editarFormulario(registro.row.id)"></el-button>
+        <el-button link type="danger" size="small" :icon="Delete" @click="eliminarCargo(registro.row.id)"></el-button>
       </template>
     </el-table-column>
   </el-table>          
         </template>
-
     </LayoutMain>
 </template>
+
 
 <script lang="ts" setup>
 import { onMounted, reactive, ref } from 'vue'
@@ -45,7 +45,7 @@ import FormVisitantes from './componentes/FormVisitantes.vue';
 import Header from '../../components/Header.vue';
 import {Delete,Edit} from "@element-plus/icons-vue"
 import Formulario from '../../components/Formulario.vue';
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus'
 import axios from 'axios';
 
 
@@ -54,19 +54,25 @@ const mostrarFormulario=ref(false)
 const editandoFormulario = ref(false)
 const formRef = ref()
 const areas = ref([])
+const dataCargosById = ref()
 const autorizados = ref([])
 const datos = ref([])
 const cargos = ref([])
+
 
 const abrirFormulario =()=>{
   mostrarFormulario.value=true
   editandoFormulario.value=false
 }
 
-const editarFormulario= async()=>{
+
+const editarFormulario= async(id)=>{
+    dataCargosById.value = await datosById(id)
+    console.log(dataCargosById.value, 'dataCargosById.value');
     mostrarFormulario.value=true
     editandoFormulario.value=true
   }
+
 
 const guardarDatos = async () => {
 const validacion = await formRef.value?.validarFormulario()
@@ -75,12 +81,14 @@ const validacion = await formRef.value?.validarFormulario()
     }
 }
 
+
 const actualizarDatos = async () => {
     const validacion = await formRef.value?.validarFormulario()
     if (validacion) {
         await actualizarCargo()
     }
 }
+
 
 const crearCargo = async () => {
     const url = 'http://127.0.0.1:8000/api/visitante/crear'
@@ -113,13 +121,89 @@ const crearCargo = async () => {
     console.log('datos encontrados')
 }
 
+
+
 const actualizarCargo = async () => {
-    console.log('se actualizo el cargo');
+ const url = 'http://127.0.0.1:8000/api/visitante/actualizar'
+ const dataFormulario = {
+     id:dataCargosById.value[0].id,
+     nombre: formRef.value.formulario.nombre,
+     salario: formRef.value.formulario.salario,
+     id_area: formRef.value.formulario.area
+ }
+ try {
+     axios.put(url, dataFormulario)
+         .then(function (response) {
+             console.log(response);
+             formRef.value?.limpiarFormulario()
+             ElMessage({
+                 message: 'El cargo se actualizo con exito    .',
+                 type: 'success',
+             })
+             datosCargo()
+             mostrarFormulario.value = false
+         })
+         .catch(function (error) {
+             console.log(error);
+         });
+ } catch (error) {
+     console.error('error crear cargo ', error)
+ }
 }
 
-const eliminarCargo = async () => {
-    console.log('se elimino el cargo');
+
+const datosById = async (id) => {
+const url = 'http://127.0.0.1:8000/api/visitante/buscarporId'
+try {
+    const response = axios.get(url, {
+        params: {
+            id: id
+          }
+        })
+      return (await response).data.data
+    } catch (error) {
+      console.error('error crear cargo ', error)
+    } 
+  }
+    
+
+const eliminarCargo = async (id) => {
+  const url = 'http://127.0.0.1:8000/api/visitante/eliminar'
+  ElMessageBox.confirm(
+    'Está seguro que lo desea eliminar?',
+    'Eliminar el registro',
+    {
+      confirmButtonText: 'SI',
+      cancelButtonText: 'Cancelar',
+      type: 'warning',
+    }
+  )
+    .then(() => {
+      try {
+        axios.delete(url, {data:{id}})
+            .then(function (response) {
+                datosCargo()
+                mostrarFormulario.value = false
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    } catch (error) {
+        console.error('error al eliminar el cargo ', error)
+    }
+      ElMessage({
+        type: 'success',
+        message: 'Eliminado correctamente',
+      })
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: 'No se elimino',
+      })
+    })
 }
+
 
 const datosCargo = async () => {
     const url = 'http://127.0.0.1:8000/api/visitante/buscar'
@@ -137,6 +221,7 @@ try {
         }
         }
 
+
 const getAreas = async () => {
   const url = 'http://127.0.0.1:8000/api/tipodocumento/buscar'
   try {
@@ -153,6 +238,7 @@ const getAreas = async () => {
   }  
 }
 
+
 const getAutorizados = async () => {
   const url = 'http://127.0.0.1:8000/api/autorizaciones/buscar'
   try {
@@ -168,6 +254,7 @@ const getAutorizados = async () => {
     console.error('error ver autorizados ', error)
   }  
 }
+
 
 const getDatos = async () => {
   const url = 'http://127.0.0.1:8000/api/datospersonales/buscar'
@@ -186,18 +273,15 @@ const getDatos = async () => {
 }
 
 
-
-
 onMounted(() => {
   getAreas()
   getAutorizados()
   getDatos()
   datosCargo()
 })
-
 </script>
 
-<style>
 
+<style>
 </style>
 

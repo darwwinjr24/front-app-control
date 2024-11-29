@@ -47,7 +47,7 @@
 
 <script setup>
 
-import { reactive, ref } from 'vue'
+import { onMounted, reactive, ref, watch} from 'vue'
 
 const propiedad = defineProps({
   areas: {
@@ -61,7 +61,8 @@ const propiedad = defineProps({
   datos: {
     type:Array,
     required:true
-  }
+  },
+  dataValue: Object,
 });
 
 const formSize = ref('default')
@@ -73,6 +74,16 @@ const formulario = reactive({
   autorizado_id: '',
   datos_personales_id: '',
 })
+
+
+const datosFormulario = () => {
+
+formulario.nombre = propiedad.dataValue[0].foto;
+formulario.salario = propiedad.dataValue[0].empresa;
+formulario.area = propiedad.dataValue[0].tipo_documento_id;
+formulario.autorizado_id = propiedad.dataValue[0].autorizado_id;
+formulario.datos_personales_id = propiedad.dataValue[0].datos_personales_id;
+}
 
 
 const rulesForm = reactive({
@@ -132,6 +143,12 @@ const validarFormulario =  () => {
         })         
 }
 
+watch(
+  () => propiedad.dataValue,
+  (newData) => {
+    datosFormulario();
+  }
+);
 
 
 

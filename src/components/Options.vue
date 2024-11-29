@@ -7,6 +7,7 @@ import { Histogram, UserFilled } from '@element-plus/icons-vue'
 <div class="container">
 
   <div class="demo-type">
+
     <div>
       <el-avatar
       src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
@@ -14,6 +15,15 @@ import { Histogram, UserFilled } from '@element-plus/icons-vue'
         <el-button type="primary">Registrar visitantes</el-button>
       </div>
     </div>
+
+    <div>
+      <el-avatar
+      src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+      />        <div>
+        <el-button type="success">Ingresar visitante</el-button>
+      </div>
+    </div>
+
     <div>
       <el-avatar
       src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
@@ -22,21 +32,26 @@ import { Histogram, UserFilled } from '@element-plus/icons-vue'
         <el-button type="danger">Salida visitantes</el-button>
       </div>
     </div>
-    <div>
-      <el-avatar
-      src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-      />
+    
       <div>
-        <el-button type="success">Consultar visitantes</el-button>
+        <el-avatar
+        src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+        />
+        <div>
+          <el-button type="warning">Consultar visitantes</el-button>
+        </div>
       </div>
-    </div>
-    <div>
-      <el-avatar :icon="Histogram" />
+      
       <div>
-        <el-button type="info">Consultar Historial</el-button>
+        <el-avatar
+        src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+        />
+        <div>
+          <el-button type="info">Consultar Historial</el-button>
+        </div>
       </div>
-    </div>
   </div>
+
   <slot name="slotvisitante"></slot>
 </div>
 </template>
@@ -48,6 +63,10 @@ import { Histogram, UserFilled } from '@element-plus/icons-vue'
     display: flex;
   }
   .demo-type > div {
+    flex: 1;
+    text-align: center;
+  }
+  .demo-type-2 > div {
     flex: 1;
     text-align: center;
   }
