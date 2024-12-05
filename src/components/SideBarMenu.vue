@@ -16,7 +16,8 @@
             <span>Administrador</span>
           </template>
             <el-menu-item index="1-1">Colaboradores</el-menu-item>
-            <el-menu-item index="principal">Usuarios</el-menu-item>
+            <el-menu-item index="">Usuarios</el-menu-item>
+            <el-menu-item index="principal">Ejemplo del sistema</el-menu-item>
             </el-sub-menu>
 
             <el-sub-menu index="1">
@@ -74,7 +75,7 @@ const handleClose = (key: string, keyPath: string[]) => {
 
   
   .el-menu-vertical-demo {
-    width: 250px;
+    width: 200px;
     min-height: 100%;
   }
 </style>

@@ -16,11 +16,11 @@
       <el-input v-model="formulario.salario" />
     </el-form-item>
     <el-form-item label="Tipo de documento" prop="area">
-      <el-select v-model="formulario.area" placeholder="Seleccione su tipo de documento">
-        <el-option v-for="area in areas"
-        :key="area.id"
-        :label="area.nombre"
-        :value="area.id"
+      <el-select v-model="formulario.tipo_documento_id" placeholder="Seleccione su tipo de documento">
+        <el-option v-for="sapo in areas"
+        :key="sapo.id"
+        :label="sapo.nombre"
+        :value="sapo.id"
         />
       </el-select>
     </el-form-item>
@@ -71,6 +71,7 @@ const formulario = reactive({
   nombre: '',
   salario: '',
   area: '',
+  tipo_documento_id:'',
   autorizado_id: '',
   datos_personales_id: '',
 })
@@ -92,6 +93,11 @@ const rulesForm = reactive({
       message: 'Por favor ingrese el nombre', 
       trigger: 'blur' }
   ],
+  tipo_documento_id: [
+    { required: true,
+      message: 'Por favor ingrese el tipo de docuemnto', 
+      trigger: 'blur' }
+  ],
   salario: [
     {
       required: true,
@@ -107,14 +113,14 @@ const rulesForm = reactive({
     },
   ],
 
-  autorizado: [
+  autorizado_id: [
     {
       required: true,
       message: 'Seleccione un valor',
       trigger: 'blur',
     },
   ],
-  datos: [
+  datos_personales_id: [
     {
       required: true,
       message: 'Seleccione un valor',

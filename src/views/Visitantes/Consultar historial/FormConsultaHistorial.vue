@@ -1,5 +1,7 @@
 <template>
-    <div class="container">
+  <formulario></formulario>
+    <div class="form-container" v-show="abrirForm5">
+      <div class="container-data">
       <el-form :model="form" label-width="auto" style="max-width: 400px">
         <div>
             <h2>Filtrar la busqueda</h2>
@@ -15,13 +17,8 @@
                     style="width: 100%"
                     />
                 </el-col>
-            </el-form-item>
-                
-                <!-- <el-col :span="2" class="text-center">
-                    <span>-</span>
-                </el-col> -->
-                
-                <el-form-item label="Fecha Final">
+            </el-form-item>              
+               <el-form-item label="Fecha Final">
                     <el-col :span="11">
                         <el-date-picker
                         v-model="form.date2"
@@ -32,17 +29,21 @@
                     </el-col>
                 </el-form-item>
         </div>
-
-        <el-form-item>
-          <el-button type="primary" @click="onSubmit">Buscar</el-button>
-          <el-button>Cancelar</el-button>
-        </el-form-item>
+        <slot name="slotBoton"></slot>
       </el-form>
+    </div>
     </div>
     </template>
     
     <script lang="ts" setup>
-    import { reactive } from 'vue'
+    import { reactive,computed } from 'vue'
+    import Formulario from '../../../components/Formulario.vue';
+
+    const propiedad= defineProps({
+  isOpen: Boolean,
+})
+  
+const abrirForm5 = computed(() => propiedad.isOpen);
     
     // do not use same name with ref
     const form = reactive({
@@ -62,7 +63,20 @@
     </script>
   
     <style scoped>
-    .container { display: flex; justify-content: center; height: 200vh; background-color: #f9f9f9; }
-     .form { width: 300px; padding: 30px; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);}
+  .container-data {display: flex; justify-content: center;}
+  .form-container {
+  margin-top: 0px;
+  height: 20vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0px;
+  width: 100%;
+  z-index: 90;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh + 42%);
+}
     </style>
     
