@@ -1,19 +1,18 @@
 <template>
       <LayoutMain>
         <template #slot1>
-            <Header
-            :titulo="'PRINCIPAL'"
-            :tituloBoton="'Nuevo registro'"
-            :abrir="abrirFormulario">
+            <Header :titulo="'PRINCIPAL'" :tituloBoton="'Nuevo registro'" :abrir="abrirFormulario">
             </Header>
-
-            <Formulario :titulo="'MOSTRAR FORMULARIO NUMERO 2'" v-model:is-open="mostrarFormulario" :is-edit="editandoFormulario" @save="guardarDatos" @update="actualizarDatos">
+          
+            <Formulario :titulo="'MOSTRAR FORMULARIO NUMERO 2'"  v-model:is-open="mostrarFormulario" 
+            :is-edit="editandoFormulario" @save="guardarDatos" @update="actualizarDatos">
               <template #slotform>
                 <el-row :gutter="20">
                   <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
+              
                     <FormVisitantes 
                     v-model:is-open="mostrarFormulario" :is-edit="editandoFormulario" 
-                    ref="formRef" :areas="areas" :autorizados="autorizados" :datos="datos" :dataValue="dataCargosById"
+                    ref="formRef" :documento="documento" :areas="areas" :autorizados="autorizados" :datos="datos" :dataValue="dataCargosById"
                     />
                   </el-col>
                   </el-row>
@@ -21,7 +20,7 @@
             </Formulario>
 
   <el-table :data="cargos" stripe style="width: 100%">
-    <el-table-column prop="foto" label="Nombre"/>
+    <el-table-column prop="nombres" label="Nombre"/>
     <el-table-column prop="empresa" label="Apellido"/>
     <el-table-column prop="tipo_documento_id" label="Tipo de documento" />
     <el-table-column prop="autorizado_id" label="Autorizado" />
@@ -53,9 +52,10 @@ import axios from 'axios';
 const mostrarFormulario=ref(false)
 const editandoFormulario = ref(false)
 const formRef = ref()
-const areas = ref([])
 const dataCargosById = ref()
 const autorizados = ref([])
+const documento=ref([])
+const areas = ref([])
 const datos = ref([])
 const cargos = ref([])
 
@@ -68,7 +68,6 @@ const abrirFormulario =()=>{
 
 const editarFormulario= async(id)=>{
     dataCargosById.value = await datosById(id)
-    console.log(dataCargosById.value, 'dataCargosById.value');
     mostrarFormulario.value=true
     editandoFormulario.value=true
   }
@@ -93,8 +92,8 @@ const actualizarDatos = async () => {
 const crearCargo = async () => {
     const url = 'http://127.0.0.1:8000/api/visitante/crear'
     const dataFormulario = {
-        foto: formRef.value.formulario.nombre,
-        empresa: formRef.value.formulario.salario,
+        foto:formRef.value.formulario.nombre,
+        empresa:formRef.value.formulario.salario,
         tipo_documento_id:formRef.value.formulario.area,
         autorizado_id: formRef.value.formulario.autorizado_id,
         datos_personales_id:formRef.value.formulario.datos_personales_id,
@@ -127,9 +126,11 @@ const actualizarCargo = async () => {
  const url = 'http://127.0.0.1:8000/api/visitante/actualizar'
  const dataFormulario = {
      id:dataCargosById.value[0].id,
-     nombre: formRef.value.formulario.nombre,
-     salario: formRef.value.formulario.salario,
-     id_area: formRef.value.formulario.area
+     foto:formRef.value.formulario.nombre,
+     empresa:formRef.value.formulario.salario,
+     tipo_documento_id:formRef.value.formulario.area,
+     autorizado_id: formRef.value.formulario.autorizado_id,
+      datos_personales_id:formRef.value.formulario.datos_personales_id,
  }
  try {
      axios.put(url, dataFormulario)
@@ -160,7 +161,7 @@ try {
             id: id
           }
         })
-      return (await response).data.data
+        return (await response).data.data
     } catch (error) {
       console.error('error crear cargo ', error)
     } 
@@ -273,12 +274,12 @@ const getDatos = async () => {
 }
 
 
-onMounted(() => {
-  getAreas()
-  getAutorizados()
-  getDatos()
-  datosCargo()
-})
+// onMounted(() => {
+//   getAreas()
+//   getAutorizados()
+//   getDatos()
+//   datosCargo()
+// })
 </script>
 
 

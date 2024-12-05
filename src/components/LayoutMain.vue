@@ -10,7 +10,7 @@ import SideBarMenu from './SideBarMenu.vue'
         </el-header>
 
         <el-container>
-            <el-aside width="250px">
+            <el-aside width="200px">
                 <SideBarMenu/>
             </el-aside>
 
