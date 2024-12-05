@@ -1,128 +1,307 @@
-<template>
-  <div class="container">
-    <el-form :model="form" label-width="auto" style="max-width: 400px">
-      <h2>Nuevo visitante</h2>
-      <el-form-item label="Nombres">
-        <el-input v-model="form.name" />
-      </el-form-item>
-      <el-form-item label="Apellidos">
-        <el-input v-model="form.name" />
-      </el-form-item>
-
-      <div>
-        <el-form-item label="Tipo de documento">
-        <el-select v-model="form.region" placeholder="Seleccione su tipo de documento">
-          <el-option label="Cedula de ciudadania" value="shangha" />
-          <el-option label="NIT" value="beijing" />
-          <el-option label="Cedula de extranjería" value="beijing" />
-          <el-option label="Pasaporte" value="beijing" />
-          <el-option label="Carnet diplomatico" value="beijing" />
-          <el-option label="Permiso especial" value="beijing" />
-          <el-option label="Salvoconducto de permanencia" value="beijing" />
-          <el-option label="Permiso de protección temporal" value="beijing" />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="Numero de documento">
-        <el-input v-model="form.name" />
-      </el-form-item>
-      <el-form-item label="Nombre de la empresa">
-        <el-input v-model="form.name" />
-      </el-form-item>
-      <el-form-item label="Numero de celular">
-        <el-input v-model="form.name" />
-      </el-form-item>
-      <el-form-item label="Correo electrónico">
-        <el-input v-model="form.name" />
-      </el-form-item>
+<template> 
+  <div class="form-container" v-show="abrirForm1">
+    <div class="container-data">
+      <el-form label-width="auto" :model="formulario1" style="max-width: 400px" :rules="rulesForm"
+      ref="formRegistro" :size="formSize">
+      
+        <h2>Nuevo visitante</h2>
+        <el-form-item label="Nombres" prop="nombres">
+          <el-input v-model="formulario1.nombres" />
+        </el-form-item>
+        <el-form-item label="Apellidos" prop="apellidos">
+          <el-input v-model="formulario1.apellidos" />
+        </el-form-item>
+        <div>
+          <el-form-item label="Tipo de documento" prop="tipoDocumento">
+          <el-select v-model="formulario1.tipoDocumento" placeholder="Seleccione su tipo de documento">
+            <el-option v-for="documento in documentos"
+          :key="documento.id"
+          :label="documento.nombre"
+          :value="documento.id"
+          />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Numero de documento" prop="numeroDocumento">
+          <el-input v-model="formulario1.numeroDocumento" />
+        </el-form-item>
+        <el-form-item label="Nombre de la empresa" prop="empresa">
+          <el-input v-model="formulario1.empresa" />
+        </el-form-item>
+        <el-form-item label="Numero de celular" prop="celular">
+          <el-input v-model="formulario1.celular" />
+        </el-form-item>
+        <el-form-item label="Correo electrónico" prop="correo">
+          <el-input v-model="formulario1.correo" />
+        </el-form-item>
+      </div>
+      <el-form-item label="Persona que autoriza" prop="autorizado">
+          <el-select v-model="formulario1.autorizado" placeholder="Seleccione una opción">
+            <el-option v-for="autoriza in autorizados"
+          :key="autoriza.id"
+          :label="autoriza.nombre"
+          :value="autoriza.id"
+          />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Zona de actividad" prop="area_a_visitar_id">
+          <el-select v-model="formulario1.area_a_visitar_id" placeholder="Seleccione el área">
+            <el-option v-for="actividad in areasVisitar"
+          :key="actividad.id"
+          :label="actividad.nombre"
+          :value="actividad.id"
+          />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Persona a visitar" prop="datos_personales_id">
+          <el-select v-model="formulario1.datos_personales_id" placeholder="Seleccione una opción">
+            <el-option v-for="dato in datos"
+          :key="dato.id"
+          :label="dato.nombres"
+          :value="dato.id"
+          />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Fecha" prop="fecha">
+          <el-col :span="11">
+            <el-date-picker
+              v-model="formulario1.fecha"
+            />
+          </el-col>
+        </el-form-item>
+          <el-form-item label="Hora" prop="hora">
+          <el-col :span="11">
+            <el-time-picker
+              v-model="formulario1.hora"
+            />
+          </el-col>
+        </el-form-item>
+        <el-form-item label="Observaciones" prop="observaciones">
+          <el-input v-model="formulario1.observaciones" type="textarea" />
+        </el-form-item>
+        <slot name="slotBoton"></slot>
+  
+      </el-form>
     </div>
-    <el-form-item label="Persona que autoriza">
-        <el-select v-model="form.region" placeholder="Seleccione una opción">
-          <el-option label="Luis Martinez" value="shanghai" />
-          <el-option label="Carlos Gil" value="beijing" />
-          <el-option label="Mariana Cruz" value="beijing" />
-          <el-option label="Santiago Marin" value="beijing" />
-          <el-option label="Luisa Rivera" value="beijing" />
-          <el-option label="Tatiana Villasmil" value="beijing" />
-          <el-option label="Nairo Correa" value="beijing" />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="Zona de actividad">
-        <el-select v-model="form.region" placeholder="Seleccione el área">
-          <el-option label="Gerencia" value="shanghai" />
-          <el-option label="Subgerencia" value="beijing" />
-          <el-option label="Tesoreria" value="beijing" />
-          <el-option label="Gestión humana" value="beijing" />
-          <el-option label="Tesoreria" value="beijing" />
-          <el-option label="Compras" value="beijing" />
-          <el-option label="Operaciones" value="beijing" />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="Fecha y hora">
-        <el-col :span="11">
-          <el-date-picker
-            v-model="form.date1"
-            type="date"
-            placeholder="Fecha"
-            style="width: 100%"
-          />
-        </el-col>
-        <el-col :span="2" class="text-center">
-          <span class="text-gray-500">-</span>
-        </el-col>
-        <el-col :span="11">
-          <el-time-picker
-            v-model="form.date2"
-            placeholder="Hora"
-            style="width: 100%"
-          />
-        </el-col>
-      </el-form-item>
-      <el-form-item label="Tipo de actividad">
-        <el-checkbox-group v-model="form.type">
-          <el-checkbox value="Visitante" name="type">
-            Visitante
-          </el-checkbox>
-          <el-checkbox value="Visita personal" name="type">
-            Visita personal
-          </el-checkbox>
-          <el-checkbox value="Contratista" name="type">
-            Contratista
-          </el-checkbox>
-        </el-checkbox-group>
-      </el-form-item>
-      <el-form-item label="Observaciones">
-        <el-input v-model="form.desc" type="textarea" />
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onSubmit">Enviar</el-button>
-        <el-button>Cancelar</el-button>
-      </el-form-item>
-    </el-form>
   </div>
-  </template>
+</template>
   
-  <script lang="ts" setup>
-  import { reactive } from 'vue'
-  
-  // do not use same name with ref
-  const form = reactive({
-    name: '',
-    region: '',
-    date1: '',
-    date2: '',
-    delivery: false,
-    type: [],
-    resource: '',
-    desc: '',
-  })
+  <script setup>
+  import { reactive,ref,computed,watch } from 'vue'
+
+
+  const propiedad= defineProps({
+  isOpen: Boolean,
+
+  documentos: {
+    type:Array,
+    required:true
+  },
+  autorizados: {
+    type:Array,
+    required:true
+  },
+  areasVisitar: {
+    type:Array,
+    required:true
+  },
+  datos: {
+    type:Array,
+    required:true
+  },
+  props: { pruebaRecibida: 
+    { type: Array, 
+      default: () => [] } },
+
+  dataValue: Object,
+});
+
+  const formSize = ref('default')
+  const formRegistro = ref()
+  const formulario1 = reactive({
+  nombres: '',
+  apellidos: '',
+  celular: '',
+  correo: '',
+  fecha: '',
+  hora: '',
+  observaciones: '',
+  area_a_visitar_id: '',
+  tipoDocumento: '',
+  empresa: '',
+  numeroDocumento:'',
+  autorizado:'',
+  datos_personales_id:'',
+})
+
+
+const datosFormulario = () => {
+formulario1.nombres = propiedad.dataValue[0].nombres;
+formulario1.apellidos = propiedad.dataValue[0].apellidos;
+formulario1.celular = propiedad.dataValue[0].celular;
+formulario1.correo = propiedad.dataValue[0].correo;
+formulario1.fecha = propiedad.dataValue[0].fecha;
+formulario1.hora = propiedad.dataValue[0].hora;
+formulario1.observaciones = propiedad.dataValue[0].observaciones;
+formulario1.area_a_visitar_id = propiedad.dataValue[0].area_a_visitar_id;
+formulario1.tipoDocumento = propiedad.dataValue[0].tipo_documento_id;
+formulario1.empresa = propiedad.dataValue[0].empresa;
+formulario1.numeroDocumento = propiedad.dataValue[0].numero_documento;
+formulario1.autorizado = propiedad.dataValue[0].autorizado_id;
+formulario1.datos_personales_id = propiedad.dataValue[0].datos_personales_id;
+}
+
+
+const rulesForm = reactive({
+  nombres: [
+    { 
+      required: true,
+      message: 'Por favor ingrese el nombre', 
+      trigger: 'blur' 
+    }
+  ],
+  apellidos: [
+    {
+      required: true,
+      message: 'Por favor ingrese los apellidos',
+      trigger: 'blur',
+    },
+  ],
+  tipoDocumento: [
+    {
+      required: true,
+      message: 'Seleccione el tipo de documento',
+      trigger: 'change',
+    },
+  ],
+
+  numeroDocumento: [
+    {
+      required: true,
+      message: 'Ingrese el numero de documento',
+      trigger: 'blur',
+    },
+  ],
+  empresa: [
+    {
+      required: false,
+      message: 'Ingrese el nombre de la empresa',
+      trigger: 'blur',
+    },
+  ],
+  celular: [
+    {
+      required: true,
+      message: 'Ingrese el numero de celular',
+      trigger: 'blur',
+    },
+  ],
+  correo: [
+    {
+      required: true,
+      message: 'Ingrese el correo electrónico',
+      trigger: 'blur',
+    },
+  ],
+  autorizado: [
+    {
+      required: true,
+      message: 'Ingrese quien autoriza',
+      trigger: 'change',
+    },
+  ],
+  area_a_visitar_id: [
+    {
+      required: true,
+      message: 'Ingrese la zona de actividad',
+      trigger: 'change',
+    },
+  ],
+  datos_personales_id: [
+    {
+      required: true,
+      message: 'ss',
+      trigger: 'change',
+    },
+  ],
+  fecha: [
+    {
+      required: true,
+      message: 'Ingrese la fecha',
+      trigger: 'blur',
+    },
+  ],
+  hora: [
+    {
+      required: true,
+      message: 'Ingrese la hora',
+      trigger: 'blur',
+    },
+  ],
+  observaciones: [
+    {
+      required: false,
+      message: '',
+      trigger: 'blur',
+    },
+  ],
+})
+
+const abrirForm1 = computed(() => propiedad.isOpen);
+
+const $emit = defineEmits(['update:is-open','save' ,'update']);
+
   
   const onSubmit = () => {
-    console.log('submit!')
+  console.log('submit!')
   }
+
+  const limpiarFormulario =()=>{
+    formRegistro.value.resetFields()    
+}
+
+  const validarFormulario =  () => {
+    console.log(formRegistro.value)
+    return new Promise ((resolve)=>{
+        formRegistro.value?.validate((valid)=>{
+          console.log('valid  ',valid)
+            if (valid) {
+              resolve(true)            
+            } else {
+                resolve(false)             
+            }    
+        })
+        })         
+}
+
+watch(
+  () => propiedad.dataValue,
+  (newData) => {
+    datosFormulario();
+  }
+);
+
+
+
+defineExpose({validarFormulario,formulario1,limpiarFormulario})
+
   </script>
 
   <style scoped>
-  .container { display: flex; justify-content: center; height: 120vh; background-color: #f9f9f9; }
-   .form { width: 300px; padding: 30px; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);}
+  .container-data {display: flex; justify-content: center;}
+  .form-container {
+  margin-top: 0px;
+  height: 20vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0px;
+  width: 100%;
+  z-index: 90;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh + 42%);
+}
+
   </style>
   

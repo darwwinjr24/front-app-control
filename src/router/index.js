@@ -3,7 +3,8 @@ import Principal from '../views/Ejemplo/Principal.vue'
 import layoutMain from '../components/LayoutMain.vue'
 import Login from '../components/Login.vue'
 import Navbar from '../components/NavBar.vue'
-import Visitantes from '../views/Visitantes/Visitantes.vue'
+import Visitantes from '../views/Visitantes/VisitantesIndex.vue'
+
 
 
 
