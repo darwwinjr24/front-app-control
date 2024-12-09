@@ -63,14 +63,14 @@
         </el-form-item>
         <el-form-item label="Fecha" prop="fecha">
           <el-col :span="11">
-            <el-date-picker
+            <el-input type="date"
               v-model="formulario1.fecha"
             />
           </el-col>
         </el-form-item>
           <el-form-item label="Hora" prop="hora">
           <el-col :span="11">
-            <el-time-picker
+            <el-input type="time"
               v-model="formulario1.hora"
             />
           </el-col>
@@ -108,11 +108,10 @@
     type:Array,
     required:true
   },
-  props: { pruebaRecibida: 
-    { type: Array, 
-      default: () => [] } },
-
-  dataValue: Object,
+  datosVisitante: {
+    type: Object,
+    default: () => ({})
+  },
 });
 
   const formSize = ref('default')
@@ -133,21 +132,21 @@
   datos_personales_id:'',
 })
 
-
+//función para referenciar los datos del formulario
 const datosFormulario = () => {
-formulario1.nombres = propiedad.dataValue[0].nombres;
-formulario1.apellidos = propiedad.dataValue[0].apellidos;
-formulario1.celular = propiedad.dataValue[0].celular;
-formulario1.correo = propiedad.dataValue[0].correo;
-formulario1.fecha = propiedad.dataValue[0].fecha;
-formulario1.hora = propiedad.dataValue[0].hora;
-formulario1.observaciones = propiedad.dataValue[0].observaciones;
-formulario1.area_a_visitar_id = propiedad.dataValue[0].area_a_visitar_id;
-formulario1.tipoDocumento = propiedad.dataValue[0].tipo_documento_id;
-formulario1.empresa = propiedad.dataValue[0].empresa;
-formulario1.numeroDocumento = propiedad.dataValue[0].numero_documento;
-formulario1.autorizado = propiedad.dataValue[0].autorizado_id;
-formulario1.datos_personales_id = propiedad.dataValue[0].datos_personales_id;
+formulario1.nombres = propiedad.datosVisitante[0].nombres;
+formulario1.apellidos = propiedad.datosVisitante[0].apellidos;
+formulario1.celular = propiedad.datosVisitante[0].celular;
+formulario1.correo = propiedad.datosVisitante[0].correo;
+formulario1.fecha = propiedad.datosVisitante[0].fecha;
+formulario1.hora = propiedad.datosVisitante[0].hora;
+formulario1.observaciones = propiedad.datosVisitante[0].observaciones;
+formulario1.area_a_visitar_id = propiedad.datosVisitante[0].area_a_visitar_id;
+formulario1.tipoDocumento = propiedad.datosVisitante[0].tipo_documento_id;
+formulario1.empresa = propiedad.datosVisitante[0].empresa;
+formulario1.numeroDocumento = propiedad.datosVisitante[0].numero_documento;
+formulario1.autorizado = propiedad.datosVisitante[0].autorizado_id;
+formulario1.datos_personales_id = propiedad.datosVisitante[0].datos_personales_id;
 }
 
 
@@ -250,15 +249,12 @@ const abrirForm1 = computed(() => propiedad.isOpen);
 
 const $emit = defineEmits(['update:is-open','save' ,'update']);
 
-  
-  const onSubmit = () => {
-  console.log('submit!')
-  }
-
+//función para limpiar el formulario
   const limpiarFormulario =()=>{
     formRegistro.value.resetFields()    
 }
 
+//función para validar los campos del formulario
   const validarFormulario =  () => {
     console.log(formRegistro.value)
     return new Promise ((resolve)=>{
@@ -274,7 +270,7 @@ const $emit = defineEmits(['update:is-open','save' ,'update']);
 }
 
 watch(
-  () => propiedad.dataValue,
+  () => propiedad.datosVisitante,
   (newData) => {
     datosFormulario();
   }

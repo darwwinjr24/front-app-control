@@ -17,41 +17,43 @@
               
             <FormNuevoVisitante v-model:is-open="mostrarRegistroVisitantes" ref="formRegistro" 
             :documentos="tiposdocumentos" :autorizados="autorizan"
-            :areasVisitar="zonasActividad" :datos="personas" :dataValue="prueba">
+            :areasVisitar="zonasActividad" :datos="personas" :datos-visitante="datosVisitante">
               <template #slotBoton> 
-              <Botones :tituloBoton="'Enviar'" :irAtras="cancelar" :ejecutar="guardar">
+              <Botones :irAtras="cancelar" @save="guardar" @update="actualizar"
+              :is-edit="editandoFormulario">
               </Botones>
             </template>
             </FormNuevoVisitante>
 
-            <FormIngresoVisitante v-model:is-open="mostrarIngresoVisitantes ">
+            <!-- <FormIngresoVisitante v-model:is-open="mostrarIngresoVisitantes ">
               <template #slotBoton> 
-              <Botones :tituloBoton="'Buscar'" :irAtras="cancelar">
+              <Botones :tituloBoton="'Buscar'" :irAtras="cancelar" :mostrarBotonEjecutar="false">
               </Botones>
             </template>
-            </FormIngresoVisitante>
+            </FormIngresoVisitante> -->
 
-            <FormSalidaVisitante v-model:is-open="mostrarSalidaVisitantes" :editar="editarFormulario"
-            :dataCargosById="prueba">
+            <FormSalidaVisitante v-model:is-open="mostrarSalidaVisitantes" @datos-visitante="manejarDatosVisitante"
+            ref="actualizarTablaSalida">
               <template #slotBoton> 
-              <Botones :tituloBoton="'Buscar'" :irAtras="cancelar">
+              <Botones :tituloBoton="'Buscar'" :irAtras="cancelar" :is-buscar="true">
               </Botones>
             </template>
             </FormSalidaVisitante>
 
-            <FormConsultaVisitantesVue v-model:is-open="mostrarConsultaVisitantes">
+            <FormConsultaVisitantesVue v-model:is-open="mostrarConsultaVisitantes" ref="actualizarTablaConsulta"
+            :autorizados="autorizan" :areas="zonasActividad">
               <template #slotBoton> 
-              <Botones :tituloBoton="'Buscar'" :irAtras="cancelar">
+              <Botones :tituloBoton="'Buscar'" :irAtras="cancelar" :mostrarBotonEjecutar="false">
               </Botones>
             </template>
             </FormConsultaVisitantesVue>
             
-            <FormConsultaHistorial v-model:is-open="mostrarConsultaHistorial">
+            <!-- <FormConsultaHistorial v-model:is-open="mostrarConsultaHistorial">
               <template #slotBoton> 
-              <Botones :tituloBoton="'Buscar'" :irAtras="cancelar" >
+              <Botones :tituloBoton="'Buscar'" :irAtras="cancelar" :is-buscar="true">
               </Botones>
             </template>
-            </FormConsultaHistorial>
+            </FormConsultaHistorial> -->
             
           </div>
         </template>
@@ -72,33 +74,26 @@ import { ElMessage} from 'element-plus'
 import {ref,onMounted } from 'vue'
 import axios from 'axios';
 
-
+const datosVisitante = ref(null)//para guardar los datos del visitante para mostrarlos en el formulario
+const actualizarTablaSalida=ref(null)//para guardar los datos de visitantes y actualizar los cambios en las tablas
+const actualizarTablaConsulta=ref(null)//para guardar los datos de visitantes y actualizar los cambios en las tablas
 const mostrarRegistroVisitantes=ref(false)
 const mostrarIngresoVisitantes=ref(false)
 const mostrarSalidaVisitantes=ref(false)
 const mostrarConsultaVisitantes=ref(false)
 const mostrarConsultaHistorial=ref(false)
+const editandoFormulario = ref(false)
 const tiposdocumentos = ref([])
 const autorizan = ref([])
 const zonasActividad = ref([])
 const personas= ref([])
 const formRegistro = ref()
 
-const prueba=()=>{
-console.log(dataCargosById)
-}
-
-//función para cerrar vista de salida visitantes y se muestre el registro visitantes
-const editarFormulario= async ()=>{
-  abrirFormulario1()
-  mostrarSalidaVisitantes.value=false
-  //actualizarVisitante()
-  //editandoFormulario.value=true
-  }
 
 //función para abrir formulario de registro visitantes
 const abrirFormulario1=()=>{
   mostrarRegistroVisitantes.value=true
+  editandoFormulario.value=false
 }
 
 //función para abrir formulario de ingreso visitantes
@@ -128,15 +123,10 @@ const cancelar=()=>{
   mostrarSalidaVisitantes.value=false
   mostrarConsultaVisitantes.value=false
   mostrarConsultaHistorial.value=false
-  
+  formRegistro.value?.limpiarFormulario()
 }
 
-const guardar = async()=>{
-  const validacion = await formRegistro.value?.validarFormulario()
-  if(validacion){
-    guardarDatos()
-  }
-}
+
 
 //función para buscar el tipo de documento del visitante
 const getDocumento = async () => {
@@ -206,7 +196,13 @@ const getDatos = async () => {
   }  
 }
 
-//función para guardar la información en la base de datos
+//funciónes para guardar la información en la base de datos
+const guardar = async()=>{
+  const validacion = await formRegistro.value?.validarFormulario()
+  if(validacion){
+    guardarDatos()
+  }
+}
 const guardarDatos = async () => {
   const url = 'http://127.0.0.1:8000/api/visitante/crear'
   const dataFormulario = {
@@ -234,7 +230,9 @@ const guardarDatos = async () => {
                   message: 'El visitante se registró con exito',
                   type: 'success',
               })
-              //mostrarFormulario.value = false
+              actualizarTablaSalida.value?.datosVisitantes()
+              actualizarTablaConsulta.value?.datosVisitantes()
+              cancelar()
           })
           .catch(function (error) {
               console.log(error);
@@ -245,17 +243,27 @@ const guardarDatos = async () => {
   console.log('datos encontrados')
 }
 
-const actualizarVisitante = async () => {
+
+//funciónes para manejar los datos del visitante que se reciben para actualizar
+const manejarDatosVisitante = (datos) => {
+  console.log('Datos recibidos:', datos)
+  datosVisitante.value = datos
+  abrirFormulario1()
+  mostrarSalidaVisitantes.value = false
+  editandoFormulario.value=true
+}
+const actualizar= async () => {
+  console.log('esta es la prueba de actualizar')
     const validacion = await formRegistro.value?.validarFormulario()
     if (validacion) {
-        await actualizarDatos()
+        await actualizarVisitante()
     }
 }
-
-const actualizarDatos = async () => {
+//Función para actualizar los datos del visitante
+const actualizarVisitante = async () => {
  const url = 'http://127.0.0.1:8000/api/visitante/actualizar'
- console.log(dataFormulario)
  const dataFormulario = {
+      id:datosVisitante.value[0].id,
       nombres: formRegistro.value.formulario1.nombres,
       apellidos: formRegistro.value.formulario1.apellidos,
       celular: formRegistro.value.formulario1.celular,
@@ -270,6 +278,7 @@ const actualizarDatos = async () => {
       tipo_documento_id: formRegistro.value.formulario1.tipoDocumento,
       datos_personales_id:formRegistro.value.formulario1.datos_personales_id,
  }
+ console.log('esta es la data a actualizar',dataFormulario)
  try {
      axios.put(url, dataFormulario)
          .then(function (response) {
@@ -279,8 +288,9 @@ const actualizarDatos = async () => {
                  message: 'Los datos se actualizaron con exito    .',
                  type: 'success',
              })
-             datosVisitantes()
-             mostrarFormulario.value = false
+             actualizarTablaSalida.value?.datosVisitantes()
+             actualizarTablaConsulta.value?.datosVisitantes()
+            cancelar()
          })
          .catch(function (error) {
              console.log(error);
@@ -304,6 +314,6 @@ onMounted(() => {
   margin-top: 45px;
 }
 .container-image{
-  display: flex; justify-content: center; align-items: center; height: 70vh; /* Opcional: para centrar verticalmente */ }
+  display: flex; justify-content: center; align-items: center; height: 70vh;}
 .centered-image { max-width: 40%; height: auto;}
 </style>

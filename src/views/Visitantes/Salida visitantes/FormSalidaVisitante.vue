@@ -1,34 +1,45 @@
 <template>
   <div class="form-container" v-show="abrirForm3">
     <div class="container-data">
+
     <el-form :model="form" label-width="auto" style="max-width: 800px">
       <h2>Visitante a salir</h2>
       <el-form-item label=" Número de documento">
-        <el-input v-model="form.name" />
+        <el-input type="number" placeholder="Ingrese el número del documento" 
+        v-model="cedula" @input="desplazamiento"/>
       </el-form-item>
       <slot name="slotBoton"></slot>
       <div>
-          <el-table :data="cargos" stripe style="width: 800px">
+
+          <el-table :data="visitantes" stripe style="width: 800px" :row-class-name="resaltado">
               <el-table-column prop="nombres" label="Nombres"/>
               <el-table-column prop="apellidos" label="Apellidos"/>
-              <el-table-column prop="numero_documento" label="Documento"/>
+              <el-table-column prop="numero_documento" label="Documento">
+              <template #default="{ row }">
+                <span :class="{'texto': resaltar(row.numero_documento) }"
+                :ref="el => { if(resaltar(row.numero_documento)) movimientoRef = el }">
+                {{ row.numero_documento }}
+                </span>
+              </template>
+              </el-table-column>
               <el-table-column prop="celular" label="Celular"/>
               <el-table-column prop="empresa" label="Empresa"/>
               <el-table-column fixed="right" label="Acciones" min-width="120">
                   <template #default="registro">
-                      <el-button link type="primary" size="small" :icon="Edit" @click="editar(editarForm(registro.row.id))"></el-button>
+                      <el-button link type="primary" size="small" :icon="Edit" @click="editarForm(registro.row.id)"></el-button>
                       <el-button link type="danger" size="small" :icon="Delete" @click="eliminarVisitante(registro.row.id)"></el-button>
                   </template>
               </el-table-column>
           </el-table>  
-      
+
       </div>
     </el-form>
   </div>
   </div>
   </template>
   
-  <script lang="ts" setup>
+
+  <script setup>
   import { reactive,computed,ref,onMounted } from 'vue'
   import {Delete,Edit} from "@element-plus/icons-vue"
   import { ElMessage,ElMessageBox } from 'element-plus';
@@ -37,34 +48,50 @@
   
   const propiedad= defineProps({
     isOpen: Boolean,
-    editar:{
-    type:Function,
-  },
-//   dataCargosById:
-//   { type: Array, 
-//   required: true
-// }
+    result: Object,
   })
 
-  const $emit = defineEmits(['response']);
-  $emit('response','ola darwin')
   
+  const movimientoRef = ref(null)
+  const cedula = ref('')
   const mostrarFormulario=ref(false)
-  // const editandoFormulario = ref(false)
-  // const formRef = ref()
   const dataCargosById = ref()
-  // const areas = ref([])
-  // const autorizados = ref([])
-  // const datos = ref([])
-  const cargos = ref([])
-  
+  const visitantes = ref([])
+
+  const $emit = defineEmits(['datos-visitante']);
+
   const abrirForm3 = computed(() => propiedad.isOpen);
 
+  // Función para encontrar coincidencia de cédula
+  const resaltar = (numero) => {
+  return numero.toString() === cedula.value.toString()}
+
+
+  // Función para desplazarse hasta el numero coincidente
+  const desplazamiento = () => {
+  setTimeout(() => {
+    if (movimientoRef.value) {
+      movimientoRef.value.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      })
+    }
+  }, 100)
+}
+
+// Función para determinar la clase de la fila
+const resaltado = ({ row }) => {
+  return resaltar(row.numero_documento) ? 'highlighted-row' : ''
+}
+
+  //función para guardar los datos a actualizar
   const editarForm= async (id)=>{
     dataCargosById.value = await datosById(id)
-    console.log('prueba data',dataCargosById)
+    console.log('prueba data',dataCargosById.value)
+    $emit('datos-visitante', dataCargosById.value)
   }
 
+//función para buscar los datos a actualizar
 const datosById = async (id) => {
 const url = 'http://127.0.0.1:8000/api/visitante/buscarporId'
 console.log(id)
@@ -124,7 +151,7 @@ const url = 'http://127.0.0.1:8000/api/visitante/buscar'
 try {
 axios.get(url)
     .then(function (response) {
-        cargos.value = response.data.data
+        visitantes.value = response.data.data
         console.log(response);
     })
     .catch(function (error) {
@@ -153,9 +180,7 @@ datosVisitantes()
     desc: '',
   })
   
-  const onSubmit = () => {
-    console.log('submit!')
-  }
+  defineExpose({datosVisitantes})
 
   </script>
 
@@ -174,5 +199,20 @@ datosVisitantes()
   display: flex;
   flex-direction: column;
   height: calc(100vh + 42%);
+  scroll-behavior: smooth;
 }
+
+.highlighted-row td {
+  background-color: #ffeeba !important;
+}
+
+/* Estilo específico para el texto resaltado */
+.texto {
+  background-color: #96f57e;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
   </style>
