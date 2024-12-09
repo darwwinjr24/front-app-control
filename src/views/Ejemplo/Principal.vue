@@ -22,7 +22,7 @@
   <el-table :data="cargos" stripe style="width: 100%">
     <el-table-column prop="nombres" label="Nombre"/>
     <el-table-column prop="empresa" label="Apellido"/>
-    <el-table-column prop="tipo_documento_id" label="Tipo de documento" />
+    <el-table-column prop="tipo_documento_id" label="Tipo de documento"/>
     <el-table-column prop="autorizado_id" label="Autorizado" />
     <el-table-column prop="datos_personales_id" label="Nombre quien autoriza" />
     <el-table-column fixed="right" label="Acciones" min-width="120">
@@ -37,7 +37,7 @@
 </template>
 
 
-<script lang="ts" setup>
+<script setup>
 import { onMounted, reactive, ref } from 'vue'
 import LayoutMain from '../../components/LayoutMain.vue';
 import FormVisitantes from './componentes/FormVisitantes.vue';

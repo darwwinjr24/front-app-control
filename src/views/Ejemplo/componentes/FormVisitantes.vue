@@ -129,10 +129,6 @@ const rulesForm = reactive({
   ],
 })
 
-
-
-
-
 const limpiarFormulario =()=>{
     formRef.value.resetFields()    
 }

@@ -3,8 +3,8 @@
       <el-col :xs="18" :sm="18" :md="18" :lg="22" :xl="22" class="form-container_title-col">
         </el-col>
         <el-col :xs="6" :sm="6" :md="6" :lg="2" :xl="2" class="form-container__button-group">
-            <el-button size="" type="danger" class="form-container_buttton-cancel" @click="irAtras">Cancelar</el-button>
-            <el-button type="primary" size="" class="form-container_button-submit" @click="ejecutar">{{tituloBoton}}</el-button>
+            <el-button  size="" type="danger" class="form-container_buttton-cancel" @click="irAtras">Cancelar</el-button>
+            <el-button v-if="mostrarBotonEjecutar" type="primary" size="" class="form-container_button-submit" @click="ejecutar">{{tituloBoton}}</el-button>
         </el-col>
         </el-row>
         <el-main class="form-container_main">
@@ -17,33 +17,40 @@
 import { computed } from 'vue';
 
 const propiedad= defineProps({
-  titulo: String,
   tituloBoton: String,
   isEdit: Boolean,
   isOpen: Boolean,
-  irAtras:{
+  isBuscar: Boolean,
+  mostrarBotonEjecutar: {//propiedad para mostrar o no el botón variable
+    type: Boolean,
+    default: true
+  },
+  irAtras:{//propiedad para ir atras en el formulario
     type:Function
   },
-  ejecutar:{
+  ejecutar:{//propiedad para realizar la función ejecutar 
     type:Function
   }
 })
 
- //const tituloBoton = computed(()=>(propiedad.isEdit ? 'Actualizar': 'Guardar'))
-
-//  const abrirForm1 = computed(() => propiedad.isOpen);
-
-  const $emit = defineEmits(['update:is-open','save' ,'update']);
+  //emits que se usaran en el componente principal
+  const $emit = defineEmits(['update:is-open','save' ,'update', 'search']);
 
 
-// const irAtras = ()  => {
-//   $emit('update:is-open', false);
-// };
+  //función para cambiar el titulo del botón
+  const tituloBoton = computed(()=>{
+  if (propiedad.isBuscar) return 'Buscar'
+   if(propiedad.isEdit) return 'Actualizar' 
+   return 'Enviar'
+  })
 
-const submit=()=>{
-  if(propiedad.isEdit){
+//función para ejecutar las funciones del boton variable
+const ejecutar = () => {
+  if (propiedad.isBuscar) {
+    $emit('search')
+  } else if (propiedad.isEdit) {
     $emit('update')
-  }else{
+  } else {
     $emit('save')
   }
 }
