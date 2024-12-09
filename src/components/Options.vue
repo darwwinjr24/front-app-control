@@ -9,13 +9,13 @@
       </div>
     </div>
 
-    <div>
+    <!-- <div>
       <el-avatar
       src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
       />        <div>
         <el-button type="success" @click="abrirForm2">Ingresar visitante</el-button>
       </div>
-    </div>
+    </div> -->
 
     <div>
       <el-avatar
@@ -35,14 +35,14 @@
         </div>
       </div>
       
-      <div>
+      <!-- <div>
         <el-avatar
         src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
         />
         <div>
           <el-button type="info" @click="abrirForm5">Consultar Historial</el-button>
         </div>
-      </div>
+      </div> -->
   </div>
   <slot name="slotvisitante"></slot>
 </div>

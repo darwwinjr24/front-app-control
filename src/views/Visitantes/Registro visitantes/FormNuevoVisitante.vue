@@ -132,7 +132,7 @@
   datos_personales_id:'',
 })
 
-
+//función para referenciar los datos del formulario
 const datosFormulario = () => {
 formulario1.nombres = propiedad.datosVisitante[0].nombres;
 formulario1.apellidos = propiedad.datosVisitante[0].apellidos;
@@ -249,15 +249,12 @@ const abrirForm1 = computed(() => propiedad.isOpen);
 
 const $emit = defineEmits(['update:is-open','save' ,'update']);
 
-  
-  const onSubmit = () => {
-  console.log('submit!')
-  }
-
+//función para limpiar el formulario
   const limpiarFormulario =()=>{
     formRegistro.value.resetFields()    
 }
 
+//función para validar los campos del formulario
   const validarFormulario =  () => {
     console.log(formRegistro.value)
     return new Promise ((resolve)=>{
