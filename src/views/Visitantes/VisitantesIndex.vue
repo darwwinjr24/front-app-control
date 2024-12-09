@@ -25,17 +25,17 @@
             </template>
             </FormNuevoVisitante>
 
-            <FormIngresoVisitante v-model:is-open="mostrarIngresoVisitantes ">
+            <!-- <FormIngresoVisitante v-model:is-open="mostrarIngresoVisitantes ">
               <template #slotBoton> 
               <Botones :tituloBoton="'Buscar'" :irAtras="cancelar" :mostrarBotonEjecutar="false">
               </Botones>
             </template>
-            </FormIngresoVisitante>
+            </FormIngresoVisitante> -->
 
             <FormSalidaVisitante v-model:is-open="mostrarSalidaVisitantes" @datos-visitante="manejarDatosVisitante"
             ref="actualizarTablaSalida">
               <template #slotBoton> 
-              <Botones :tituloBoton="'Buscar'" :irAtras="cancelar" :is-buscar="true" @search="buscar">
+              <Botones :tituloBoton="'Buscar'" :irAtras="cancelar" :is-buscar="true">
               </Botones>
             </template>
             </FormSalidaVisitante>
@@ -48,12 +48,12 @@
             </template>
             </FormConsultaVisitantesVue>
             
-            <FormConsultaHistorial v-model:is-open="mostrarConsultaHistorial">
+            <!-- <FormConsultaHistorial v-model:is-open="mostrarConsultaHistorial">
               <template #slotBoton> 
-              <Botones :tituloBoton="'Buscar'" :irAtras="cancelar" :is-buscar="true" @search="buscar">
+              <Botones :tituloBoton="'Buscar'" :irAtras="cancelar" :is-buscar="true">
               </Botones>
             </template>
-            </FormConsultaHistorial>
+            </FormConsultaHistorial> -->
             
           </div>
         </template>
@@ -89,17 +89,6 @@ const zonasActividad = ref([])
 const personas= ref([])
 const formRegistro = ref()
 
-const buscar=()=>{
-  console.log('prueba de buscar')
-}
-
-const manejarDatosVisitante = (datos) => {
-  console.log('Datos recibidos:', datos)
-  datosVisitante.value = datos
-  abrirFormulario1()
-  mostrarSalidaVisitantes.value = false
-  editandoFormulario.value=true
-}
 
 //función para abrir formulario de registro visitantes
 const abrirFormulario1=()=>{
@@ -214,7 +203,6 @@ const guardar = async()=>{
     guardarDatos()
   }
 }
-
 const guardarDatos = async () => {
   const url = 'http://127.0.0.1:8000/api/visitante/crear'
   const dataFormulario = {
@@ -256,6 +244,14 @@ const guardarDatos = async () => {
 }
 
 
+//funciónes para manejar los datos del visitante que se reciben para actualizar
+const manejarDatosVisitante = (datos) => {
+  console.log('Datos recibidos:', datos)
+  datosVisitante.value = datos
+  abrirFormulario1()
+  mostrarSalidaVisitantes.value = false
+  editandoFormulario.value=true
+}
 const actualizar= async () => {
   console.log('esta es la prueba de actualizar')
     const validacion = await formRegistro.value?.validarFormulario()
@@ -263,7 +259,6 @@ const actualizar= async () => {
         await actualizarVisitante()
     }
 }
-
 //Función para actualizar los datos del visitante
 const actualizarVisitante = async () => {
  const url = 'http://127.0.0.1:8000/api/visitante/actualizar'
@@ -293,8 +288,8 @@ const actualizarVisitante = async () => {
                  message: 'Los datos se actualizaron con exito    .',
                  type: 'success',
              })
-            actualizarTablaSalida.value?.datosVisitantes()
-            actualizarTablaConsulta.value?.datosVisitantes()
+             actualizarTablaSalida.value?.datosVisitantes()
+             actualizarTablaConsulta.value?.datosVisitantes()
             cancelar()
          })
          .catch(function (error) {
@@ -319,6 +314,6 @@ onMounted(() => {
   margin-top: 45px;
 }
 .container-image{
-  display: flex; justify-content: center; align-items: center; height: 70vh; /* Opcional: para centrar verticalmente */ }
+  display: flex; justify-content: center; align-items: center; height: 70vh;}
 .centered-image { max-width: 40%; height: auto;}
 </style>

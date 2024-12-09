@@ -44,69 +44,6 @@ const autorizados = ref([])
 const datos = ref([])
 const cargos = ref([])
 
-// const abrirFormulario =()=>{
-// mostrarFormulario.value=true
-// editandoFormulario.value=false
-// }
-
-// const editarFormulario= async()=>{
-// mostrarFormulario.value=true
-// editandoFormulario.value=true
-// }
-
-// const guardarDatos = async () => {
-// const validacion = await formRef.value?.validarFormulario()
-//  if (validacion) {
-//    await crearCargo()
-// }
-// }
-
-// const actualizarDatos = async () => {
-// const validacion = await formRef.value?.validarFormulario()
-// if (validacion) {
-//     await actualizarCargo()
-// }
-// }
-
-// const crearCargo = async () => {
-// const url = 'http://127.0.0.1:8000/api/visitante/crear'
-// const dataFormulario = {
-//     foto: formRef.value.formulario.nombre,
-//     empresa: formRef.value.formulario.salario,
-//     tipo_documento_id:formRef.value.formulario.area,
-//     autorizado_id: formRef.value.formulario.autorizado_id,
-//     datos_personales_id:formRef.value.formulario.datos_personales_id,
-// }
-// console.log(dataFormulario)
-// try {
-//     axios.post(url, dataFormulario)
-//         .then(function (response) {
-//             console.log(response);
-//             formRef.value?.limpiarFormulario()
-//             ElMessage({
-//                 message: 'El cargo se creo con exito',
-//                 type: 'success',
-//             })
-//             datosCargo()
-//             mostrarFormulario.value = false
-//         })
-//         .catch(function (error) {
-//             console.log(error);
-//         });
-// } catch (error) {
-//     console.error('error crear cargo ', error)
-// }
-// console.log('datos encontrados')
-// }
-
-// const actualizarCargo = async () => {
-// console.log('se actualizo el cargo');
-// }
-
-// const eliminarCargo = async () => {
-// console.log('se elimino el cargo');
-// }
-
 const datosCargo = async () => {
 const url = 'http://127.0.0.1:8000/api/visitante/buscar'
 try {

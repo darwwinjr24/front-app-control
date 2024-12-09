@@ -45,51 +45,23 @@ const propiedad= defineProps({
   }
 })
 
-  
 const abrirForm4 = computed(() => propiedad.isOpen);
 
-
-
-// const mostrarFormulario=ref(false)
-// const editandoFormulario = ref(false)
-// const formRef = ref()
-// const areas = ref([])
-//const autorizados = ref([])
-// const datos = ref([])
 const visitantes = ref([])
 
-// Función para obtener y guardar los autorizados
-// const obtenerAutorizados = async () => {
-//   try {
-//     // Llamamos a la función del padre y guardamos el resultado
-//     const response = await props.cargarAutorizados()
-//     autorizados.value = response.data.data
-//     console.log('Autorizados cargados:', autorizados.value)
-//   } catch (error) {
-//     console.error('Error al cargar autorizados:', error)
-//   }
-// }
-
+//función para obtener el nombre de quien autoriza el ingreso
 const obtenerNombreAutorizado = (id) => {
   const autorizado = propiedad.autorizados.find(a => a.id === id)
   return autorizado ? `${autorizado.nombre}` : 'No especificado'
 }
 
+//función para obtener el area a visitar
 const obtenerAreas = (id) => {
   const areaVisitar = propiedad.areas.find(a => a.id === id)
   return areaVisitar ? `${areaVisitar.nombre}` : 'No especificado'
 }
 
-
-// const cargarAutorizados = async () => {
-//   try {
-//     const response = await axios.get('http://127.0.0.1:8000/api/autorizaciones/buscar')
-//     autorizados.value = response.data.data
-//   } catch (error) {
-//     console.error('Error al cargar autorizados:', error)
-//   }
-// }
-
+//función para buscar los datos de los visitantes de la base de datos
 const datosVisitantes = async () => {
 const url = 'http://127.0.0.1:8000/api/visitante/buscar'
 try {
@@ -106,18 +78,10 @@ axios.get(url)
     }
     }
 
-//     onMounted(async () => {
-//   // Cargar todos los datos necesarios
-//   await Promise.all([
 onMounted(() => {
      datosVisitantes()
 })
-//     //obtenerAutorizados(),
-//     cargarAutorizados(),
-//     cargarAreas(),
-//     cargarDatosPersonales()
-//   ])
-// })
+
 
 
 defineExpose({datosVisitantes})
