@@ -9,7 +9,7 @@
               <img label-width="auto" style="max-width: 800px">
             <div class="container-image">
               <img
-              src="../../image/img1.jpg" alt="Imagen centrada" class="centered-image"/>
+              src="../../image/img1.JPG" alt="Imagen centrada" class="centered-image"/>
             </div>
           </img>
           </div>
@@ -25,12 +25,12 @@
             </template>
             </FormNuevoVisitante>
 
-            <!-- <FormIngresoVisitante v-model:is-open="mostrarIngresoVisitantes ">
+            <FormIngresoVisitante v-model:is-open="mostrarIngresoVisitantes ">
               <template #slotBoton> 
               <Botones :tituloBoton="'Buscar'" :irAtras="cancelar" :mostrarBotonEjecutar="false">
               </Botones>
             </template>
-            </FormIngresoVisitante> -->
+            </FormIngresoVisitante>
 
             <FormSalidaVisitante v-model:is-open="mostrarSalidaVisitantes" @datos-visitante="manejarDatosVisitante"
             ref="actualizarTablaSalida">
@@ -48,12 +48,12 @@
             </template>
             </FormConsultaVisitantesVue>
             
-            <!-- <FormConsultaHistorial v-model:is-open="mostrarConsultaHistorial">
+            <FormConsultaHistorial v-model:is-open="mostrarConsultaHistorial">
               <template #slotBoton> 
               <Botones :tituloBoton="'Buscar'" :irAtras="cancelar" :is-buscar="true">
               </Botones>
             </template>
-            </FormConsultaHistorial> -->
+            </FormConsultaHistorial>
             
           </div>
         </template>
@@ -315,5 +315,5 @@ onMounted(() => {
 }
 .container-image{
   display: flex; justify-content: center; align-items: center; height: 70vh;}
-.centered-image { max-width: 40%; height: auto;}
+.centered-image { max-width: 40%; height: auto;opacity: 0.3;}
 </style>

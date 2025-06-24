@@ -5,24 +5,24 @@
       <el-avatar
       src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
       />        <div>
-        <el-button type="primary" @click="abrirForm1" >Registrar visitantes</el-button>
+        <el-button type="info" @click="abrirForm1" >Registrar visitantes</el-button>
       </div>
     </div>
 
-    <!-- <div>
+    <div>
       <el-avatar
       src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
       />        <div>
-        <el-button type="success" @click="abrirForm2">Ingresar visitante</el-button>
+        <el-button type="info" @click="abrirForm2">Ingresar visitante</el-button>
       </div>
-    </div> -->
+    </div>
 
     <div>
       <el-avatar
       src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
       />
       <div>
-        <el-button type="danger" @click="abrirForm3">Salida visitantes</el-button>
+        <el-button type="info" @click="abrirForm3">Salida visitantes</el-button>
       </div>
     </div>
     
@@ -31,18 +31,18 @@
         src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
         />
         <div>
-          <el-button type="warning" @click="abrirForm4">Consultar visitantes</el-button>
+          <el-button type="info" @click="abrirForm4">Consultar visitantes</el-button>
         </div>
       </div>
       
-      <!-- <div>
+      <div>
         <el-avatar
         src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
         />
         <div>
           <el-button type="info" @click="abrirForm5">Consultar Historial</el-button>
         </div>
-      </div> -->
+      </div>
   </div>
   <slot name="slotvisitante"></slot>
 </div>
