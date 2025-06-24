@@ -17,7 +17,7 @@
 </el-table-column>
 <el-table-column prop="area_a_visitar_id" label ="Area a visitar">
   <template #default="{ row }">
-          {{ obtenerAreas(row.autorizado_id) }}
+          {{ obtenerAreas(row.area_a_visitar_id) }}
         </template>
 </el-table-column>
 <el-table-column prop="hora" label="Hora de ingreso"/>

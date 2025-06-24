@@ -5,6 +5,9 @@
       ref="formRegistro" :size="formSize">
       
         <h2>Nuevo visitante</h2>
+        <camara>
+
+</camara>
         <el-form-item label="Nombres" prop="nombres">
           <el-input v-model="formulario1.nombres" />
         </el-form-item>
@@ -87,6 +90,7 @@
   
   <script setup>
   import { reactive,ref,computed,watch } from 'vue'
+  import camara from '../../../components/camara.vue'
 
 
   const propiedad= defineProps({
