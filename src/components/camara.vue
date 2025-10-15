@@ -1,5 +1,5 @@
 <template>
-    <div>
+  <div>
       <video ref="video" autoplay playsinline width="320" height="240"></video>
       <canvas ref="canvas" width="320" height="240" style="display: none;"></canvas>
   
@@ -11,9 +11,9 @@
       <button type="button" @click="iniciarCamara">Iniciar cámara</button>
       <button type="button" @click="tomarFoto">Tomar foto</button>
   
-  <slot name="slotcamara"></slot>
-</div>
-  </template>
+    <slot name="slotcamara"></slot>
+  </div>
+</template>
   
   <script setup>
   import { ref } from 'vue';

@@ -9,7 +9,7 @@
               <img label-width="auto" style="max-width: 800px">
             <div class="container-image">
               <img
-              src="../../image/img1.JPG" alt="Imagen centrada" class="centered-image"/>
+              src="../../image/img2.png" alt="Imagen centrada" class="centered-image"/>
             </div>
           </img>
           </div>
@@ -314,6 +314,6 @@ onMounted(() => {
   margin-top: 45px;
 }
 .container-image{
-  display: flex; justify-content: center; align-items: center; height: 70vh;}
-.centered-image { max-width: 40%; height: auto;opacity: 0.3;}
+  display: flex; justify-content: center; align-items: center; height: 60vh;}
+.centered-image { max-width: 25%; height: auto;opacity: 0.7;}
 </style>
